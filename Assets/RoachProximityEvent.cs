@@ -4,11 +4,9 @@ using System.Collections;
 public class RoachProximityEvent : MonoBehaviour {
 
     private bool allowProximityEvent = true;
-    public GameObject roach;
 
 	// Use this for initialization
 	void Start () {
-        roach = GameObject.Find("roach");
 	}
 	
 	// Update is called once per frame
@@ -16,7 +14,7 @@ public class RoachProximityEvent : MonoBehaviour {
 	
 	}
 
-    void toggleProximityEvent(bool newVal)
+    public void toggleProximityEvent(bool newVal)
     {
         allowProximityEvent = newVal;
     }
@@ -24,11 +22,13 @@ public class RoachProximityEvent : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (allowProximityEvent == true)
+        Debug.Log("trigger entered!");
+        if (allowProximityEvent == true && other.tag == "Player")
         {
-            //get direction of other and move in the opposite direction for x distance
+            //get direction of other and move in the opposite direction 
            Vector3 direction = -(other.gameObject.transform.position - transform.position);
-            roach.SendMessage("moveRoach", direction);
+            Debug.Log("sending move message");
+            gameObject.SendMessage("moveRoach", direction);
         }
     }
 }

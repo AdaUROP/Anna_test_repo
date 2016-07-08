@@ -6,7 +6,7 @@ public class AnimateCockroach : MonoBehaviour
 
 
     // get random crawl speed
-    public float MAX_SPEED = 6;
+    public float MAX_SPEED = 4;
     public float MIN_SPEED = 3;
     public float random;
     public bool move = false;
@@ -14,9 +14,6 @@ public class AnimateCockroach : MonoBehaviour
     public int moves = 100;
     public int moves_counter = 0;
 
-    private RaycastHit hit;
-
-    private GameObject target;
     Vector3 targetDir;
 
 
@@ -26,14 +23,18 @@ public class AnimateCockroach : MonoBehaviour
     {
 
         random = Random.Range(MIN_SPEED, MAX_SPEED);
-       // target = GameObject.Find("target");
+        // target = GameObject.Find("target");
 
     }
     public void moveRoach(Vector3 direction)
     {
+        Debug.Log("message received! " + Time.time);
         targetDir = direction;
         move = true;
+       // Debug.Log(direction);
     }
+
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -45,43 +46,27 @@ public class AnimateCockroach : MonoBehaviour
         {
             Rigidbody rb = GetComponent<Rigidbody>();
 
-            /* Vector3 fwd = transform.TransformDirection(Vector3.forward);
-             if (Physics.Raycast(transform.position, fwd, out hit, 1))
-             {
-                // Debug.Log(hit.collider.gameObject.name);
-                 if (hit.collider.gameObject.name == "Cube")
-                 {
-                 //    rb.AddForce(Vector3.up * 800);
-                 }
-             }*/
-
-            if (Vector3.Dot(transform.up, Vector3.down) > -0.8)
-            {
-                //Debug.Log("Roach is upside down");
-                //GetComponent<Animation>().Stop("CRAWL");
-                GetComponent<Animation>()["CRAWL"].speed = random;
-            }
 
 
-            else
-            {
+            float step = (random * Time.deltaTime) * 5;
 
-                float step = (random * Time.deltaTime) * size;
+            GetComponent<Animation>().Play("CRAWL");
+            GetComponent<Animation>()["CRAWL"].speed = random * 2;
 
-                GetComponent<Animation>().Play("CRAWL");
-                GetComponent<Animation>()["CRAWL"].speed = random / 2;
+            //rotate roach if needed
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 10.0F);
+            transform.rotation = Quaternion.LookRotation(newDir);
 
-                //rotate roach if needed
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 5.0F);
-                transform.rotation = Quaternion.LookRotation(newDir);
 
-                //move roach forward
-                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
 
-                /*Vector3 moveTowards = Vector3.MoveTowards(transform.position, target.transform.position, step);
+            //move roach forward
+            // transform.position += (targetDir - transform.position) * Time.deltaTime * random;
+            transform.position += targetDir * Time.deltaTime * random;
 
-                rb.AddForce(moveTowards);*/
-            }
+            /*Vector3 moveTowards = Vector3.MoveTowards(transform.position, target.transform.position, step);
+
+            rb.AddForce(moveTowards);*/
+
 
             moves_counter++;
             if (moves_counter == moves)
@@ -90,8 +75,9 @@ public class AnimateCockroach : MonoBehaviour
                 moves_counter = 0;
             }
         }
+        else GetComponent<Animation>().Stop("CRAWL");
     }
-    
+
     // if collided with some wall or block, climb up the object
 
 }

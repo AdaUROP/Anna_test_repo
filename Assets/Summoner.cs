@@ -5,10 +5,12 @@ public class Summoner : MonoBehaviour {
 
     public GameObject wand;
     public GameObject roach;
+    private RoachProximityEvent runEvent;
 
     // Use this for initialization
     void Start () {
         roach = GameObject.Find("roach");
+        runEvent = roach.GetComponent<RoachProximityEvent>();
     }
 	
 	// Update is called once per frame
@@ -22,9 +24,11 @@ public class Summoner : MonoBehaviour {
 
         if (device.GetPress(SteamVR_Controller.ButtonMask.Trigger))
         {
+            runEvent.toggleProximityEvent(false);
             Vector3 direction = (gameObject.transform.position - roach.gameObject.transform.position);
             roach.SendMessage("moveRoach", direction);
         }
+        else runEvent.toggleProximityEvent(true);
 
     }
 }
