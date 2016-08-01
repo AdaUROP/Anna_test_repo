@@ -23,7 +23,7 @@ public class AnimateCockroach : MonoBehaviour
     {
 
         random = Random.Range(MIN_SPEED, MAX_SPEED);
-        // target = GameObject.Find("target");
+       // target = GameObject.Find("target");
 
     }
     public void moveRoach(Vector3 direction)
@@ -31,7 +31,7 @@ public class AnimateCockroach : MonoBehaviour
         Debug.Log("message received! " + Time.time);
         targetDir = direction;
         move = true;
-       // Debug.Log(direction);
+        Debug.Log(direction);
     }
 
 
@@ -46,22 +46,22 @@ public class AnimateCockroach : MonoBehaviour
         {
             Rigidbody rb = GetComponent<Rigidbody>();
 
+            
 
+                float step = (random * Time.deltaTime)*5;
 
-            float step = (random * Time.deltaTime) * 5;
+                GetComponent<Animation>().Play("CRAWL");
+                GetComponent<Animation>()["CRAWL"].speed = random * 2;
 
-            GetComponent<Animation>().Play("CRAWL");
-            GetComponent<Animation>()["CRAWL"].speed = random * 2;
+                //rotate roach if needed
+                  Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 10.0F);
+                 transform.rotation = Quaternion.LookRotation(newDir);
 
-            //rotate roach if needed
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 10.0F);
-            transform.rotation = Quaternion.LookRotation(newDir);
+             
 
-
-
-            //move roach forward
-            // transform.position += (targetDir - transform.position) * Time.deltaTime * random;
-            transform.position += targetDir * Time.deltaTime * random;
+                //move roach forward
+                // transform.position += (targetDir - transform.position) * Time.deltaTime * random;
+                transform.position += targetDir * Time.deltaTime * random;
 
             /*Vector3 moveTowards = Vector3.MoveTowards(transform.position, target.transform.position, step);
 
@@ -77,7 +77,7 @@ public class AnimateCockroach : MonoBehaviour
         }
         else GetComponent<Animation>().Stop("CRAWL");
     }
-
+    
     // if collided with some wall or block, climb up the object
 
 }

@@ -16,13 +16,8 @@ public class Summoner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        SteamVR_TrackedObject trackedObj = wand.GetComponent<SteamVR_TrackedObject>();
-        SteamVR_Controller.Device device = null;
 
-        if (trackedObj != null)
-            device = SteamVR_Controller.Input((int)trackedObj.index);
-
-        if (device.GetPress(SteamVR_Controller.ButtonMask.Trigger))
+        if (Input.GetKey("up"))
         {
             runEvent.toggleProximityEvent(false);
             Vector3 direction = (gameObject.transform.position - roach.gameObject.transform.position);
