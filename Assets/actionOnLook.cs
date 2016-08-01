@@ -6,6 +6,7 @@ public class actionOnLook : MonoBehaviour
 
     public int speed = 1;
     private Animation anim;
+    public string animName;
     private float curr_time;
 
     // Use this for initialization
@@ -20,24 +21,24 @@ public class actionOnLook : MonoBehaviour
     {
         if (anim.isPlaying)
         {
-            curr_time = anim["ballMove"].time;
+            curr_time = anim[animName].time;
         }
     }
 
     //make another function that would be called if looked at
     public void action(bool isLooking)
     {
-        Debug.Log("object was looked at!");
+        //Debug.Log("Sphere was looked at!");
         if (isLooking == true && anim.isPlaying == false)
         {
-            anim["ballMove"].speed = 1;
+            anim[animName].speed = 1;
             anim.Play();
         }
 
         else if (isLooking == false)
         {
-            anim["ballMove"].speed = -1;
-            anim["ballMove"].time = curr_time;
+            anim[animName].speed = -1;
+            anim[animName].time = curr_time;
             anim.Play();
 
         }

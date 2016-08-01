@@ -5,15 +5,6 @@ public class gazeControl : MonoBehaviour
 {
     public GameObject head;
 
-    //public GameObject gazeTarget;
-    
-
-    // Use this for initialization
-    void Start()
-    {
-     
-       
-    }
 
     // Update is called once per frame
     void Update()
@@ -27,10 +18,9 @@ public class gazeControl : MonoBehaviour
         Debug.Log("Enter "+focus.name);
         if (focus.tag == "sphere")
         {
-            //gazeTarget = focus.gameObject;
-            Debug.Log("sending message to sphere");
-        GameObject focusgo = GameObject.Find(focus.name);
-        focusgo.SendMessage("action", true);
+           
+            //Debug.Log("sending message to sphere");
+             focus.SendMessage("action", true);
         }
 
     }
@@ -40,12 +30,15 @@ public class gazeControl : MonoBehaviour
         Debug.Log("exit " + focus.name);
         if (focus.tag == "sphere")
         {
-            // gazeTarget = null;
-            Debug.Log("sending message to sphere");
+            
+           // Debug.Log("sending message to sphere");
+            focus.SendMessage("action", false);
+        }
+        else if (focus.tag == "sun")
+        {
 
-        GameObject focusgo = GameObject.Find(focus.name);
+            focus.SendMessage("startMove");
 
-            focusgo.SendMessage("action", false);
         }
 
     }
