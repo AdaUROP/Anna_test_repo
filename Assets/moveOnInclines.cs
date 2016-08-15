@@ -3,18 +3,37 @@ using System.Collections;
 
 public class moveOnInclines : MonoBehaviour {
 
-    Vector3 initDistanceFromGround;
+    float initDistanceFromGround;
+    RaycastHit hit;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         //find the difference in distance from the camera to the ground
-	    initDistanceFromGround = gameObject.transform.position.y - GameObject.F
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        {
+            print("Found object " + hit.collider.gameObject.tag + " - setting init distance: " + hit.distance);
 
-        //set the distance of the camera from the ground to match our initial value
-	
-	}
+            if(hit.collider.gameObject.tag == "ground") initDistanceFromGround = hit.distance;
+        }
+
+
+    }
+
+    void FixedUpdate()
+    {
+        
+
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        {
+            print("Found object " + hit.collider.gameObject.name +" - distance: " + hit.distance);
+            Debug.DrawLine(transform.position, hit.point);
+
+            //set the distance of the camera from the ground to match our initial value
+            if (hit.collider.gameObject.tag == "ground")
+            {
+                print("hit pt y: " + hit.point.y + " intD: "+initDistanceFromGround+" new y: " + (hit.point.y + initDistanceFromGround));
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x, hit.point.y + initDistanceFromGround, gameObject.transform.position.z);
+            }
+        }
+    }
 }
