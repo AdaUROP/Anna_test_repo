@@ -19,7 +19,7 @@ public class moveOnInclines : MonoBehaviour {
 
     }
 
-    void FixedUpdate()
+    void Update()
     {
         
 
