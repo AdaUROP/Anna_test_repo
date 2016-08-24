@@ -5,7 +5,7 @@ public class moveOnInclines : MonoBehaviour {
 
     float initDistanceFromGround;
     RaycastHit hit;
-    Camera viveCam; // camera should be assigned from Unity editor
+   public Camera viveCam; // camera should be assigned from Unity editor
 
     // Use this for initialization
     void Start () {
@@ -38,7 +38,7 @@ public class moveOnInclines : MonoBehaviour {
             if (hit.collider.gameObject.tag == "ground")
             { //set the room y location to match the position where the ray collided
                 print("hit pt y: " + hit.point.y + " intD: "+initDistanceFromGround+" new y: " + (hit.point.y + initDistanceFromGround));
-                gameObject.transform.position = new Vector3(camPos.x, hit.point.y + initDistanceFromGround, camPos.z);
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x, hit.point.y + initDistanceFromGround, gameObject.transform.position.z);
             }
         }
     }
