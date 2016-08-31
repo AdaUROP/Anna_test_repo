@@ -40,6 +40,9 @@ public class triggerScript : MonoBehaviour {
             //call the blendshape function on the blendObject to the shape we want to change to the new goal amount
             blendObject.GetComponent<changeBlendshape>().blendShape(GameObject.Find("Group3"), faceGoal);
         }
-	
-	}
+
+        Debug.Log("teethGoal: " + teethGoal + " faceGoal: " + faceGoal);
+
+    }
+
 }
